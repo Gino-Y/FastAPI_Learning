@@ -1,7 +1,7 @@
 """
 typing
 """
-from typing import List, Union, NewType
+from typing import List, Union, NewType, Callable, Any
 
 
 def get_name(name: str) -> str:
@@ -26,3 +26,10 @@ my_list = List[int or str]
 def get_new_list(li: my_list) -> Union[int, str, bool]:
     return li
 
+
+# NewType: 用于类型检查
+Id = NewType('Id', int)
+print(Id('111'))
+
+
+# Callable:
