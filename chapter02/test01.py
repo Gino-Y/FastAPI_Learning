@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
+from enum import Enum
 
 app = FastAPI(
     title='Gino API文档',
@@ -23,6 +24,23 @@ app = FastAPI(
 @app.get('/user/{id: path}')
 def get_user(id: str):
     return id
+
+
+# 路径参数
+@app.get('/user2/{info: path}')
+def get_user(info: str):
+    return info
+
+
+class Gender(str, Enum):
+    male = 'male'
+    female = 'female'
+    unknow = 'unknow'
+
+
+@app.get('/user3/{gender}')
+def get_user_gender(gender: Gender):
+    return gender
 
 
 if __name__ == '__main__':
