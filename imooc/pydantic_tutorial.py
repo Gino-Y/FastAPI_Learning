@@ -1,6 +1,10 @@
-from datetime import datetime
+from datetime import datetime, date
 from pydantic import BaseModel, ValidationError
 from typing import List, Optional
+
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy.ext.declarative import declarative_base
 
 
 
@@ -36,3 +40,8 @@ print('------------------')
 print(user.dict())
 print(user.json())
 print(user.copy())
+print('------------------')
+
+print(User.__fields__.keys())
+print('------------------')
+

@@ -43,6 +43,16 @@ def get_user_gender(gender: Gender):
     return gender
 
 
+@app.get('/user4/{gender}')
+def get_user_gender(gender: Gender):
+    """
+    这是一个测试描述
+    :param gender:性别
+    :return:性别
+    """
+    return gender
+
+
 if __name__ == '__main__':
     # uvicorn.run(app='test01:app', reload=True, host='0.0.0.0', port=8080, debug=True)
     uvicorn.run(app='test01:app')
