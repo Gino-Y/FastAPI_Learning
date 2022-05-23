@@ -1,5 +1,4 @@
-import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Query, Path
 from enum import Enum
 
 app = FastAPI(
@@ -53,6 +52,67 @@ def get_user_gender(gender: Gender):
     return gender
 
 
-if __name__ == '__main__':
-    # uvicorn.run(app='test01:app', reload=True, host='0.0.0.0', port=8080, debug=True)
-    uvicorn.run(app='test01:app')
+# 查询参数
+@app.get('/user5/')
+def Querying_Parameters(username: str,
+                        age: int):
+    """
+    The exercise of querying parameters
+    :param age:
+    :param username:
+    :return:
+    """
+    return {'username': username,
+            'age': age}
+
+
+# 可选参数
+@app.get('/user6/')
+def Default_Parameters(username: str = None,
+                       age: int = 0):
+    """
+    An exercise in default parameters
+    :param age:
+    :param username:
+    :return:
+    """
+    return {'username': username,
+            'age': age}
+
+
+# 路径参数和查询参数结合使用
+@app.get('/user6/{id}/{name}')
+def Default_Path_Parameters(id: int,
+                            name: str,
+                            age: int,
+                            gender: str):
+    """
+    路径参数和查询参数结合使用
+    :param id:
+    :param name:
+    :param gender:
+    :param age:
+    :return:
+    """
+    return {'id': id,
+            'name': name,
+            'age': age,
+            'gender': gender}
+
+
+# 查询参数Query校验
+@app.get('/nuser7')
+def Query_Checkout(name: str = Query(None,  # 必传为三个点...
+                                     max_length=10,
+                                     title='我是标题',
+                                     description='name的长度不能超过10个字符')):
+    return name
+
+
+# 查询参数Path校验
+@app.get('/nuser8/{id}')
+def Path_Checkout(id: int = Path(...,  # 必传为三个点...
+                                 gt=5,
+                                 title='我是标题',
+                                 description='id的值必须大于5')):
+    return id
