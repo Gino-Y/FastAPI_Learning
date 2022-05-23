@@ -19,13 +19,13 @@ def get_user(id: int):
     return id
 
 
-# 路径参数
+# 路径参数: 3路径转换器
 @app.get('/user/{id: path}')
 def get_user(id: str):
     return id
 
 
-# 路径参数
+# 路径参数: 3路径转换器
 @app.get('/user2/{info: path}')
 def get_user(info: str):
     return info
