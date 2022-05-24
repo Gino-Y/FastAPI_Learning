@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI(
     title='Gino API文档',
@@ -17,3 +18,17 @@ def Get_Post_Data(user: dict):
     print(user)
     return user
 
+
+# 使用模型
+class User(BaseModel):
+    id: int
+    name: str
+
+
+@app.post('/test_post2')
+def Get_Post_Data_model(user: User):
+    """
+    :param user:
+    :return:
+    """
+    return user
