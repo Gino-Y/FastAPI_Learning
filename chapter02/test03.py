@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 from pydantic import BaseModel
 
 app = FastAPI(
@@ -26,9 +26,31 @@ class User(BaseModel):
 
 
 @app.post('/test_post2')
-def Get_Post_Data_model(user: User):
+def Get_Post_Data_model(user: User = Body(..., embed=True)):
     """
+    {
+    "user":{
+             "id": 0,
+             "name": "string"
+           }
+    }
     :param user:
     :return:
     """
     return user
+
+
+class Article(BaseModel):
+    id: int
+    title: str
+
+
+@app.post('/test_post3')
+def Get_Post_Data_model(user: User,
+                        article: Article):
+    """
+    :param article:
+    :param user:
+    :return:
+    """
+    return {'user': user, 'article': article}

@@ -101,7 +101,7 @@ def Default_Path_Parameters(id: int,
 
 
 # 查询参数Query校验
-@app.get('/nuser7')
+@app.get('/nuser7/')
 def Query_Checkout(name: str = Query(None,  # 必传为三个点...
                                      max_length=10,
                                      title='我是标题',
