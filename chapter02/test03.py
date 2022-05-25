@@ -72,7 +72,7 @@ def get_post_mix(user: User,
             'count': count}
 
 
-@app.post('/test_post5', tags=['Post Test Use Model'])
+@app.post('/test_post5', tags=['Post Test', 'Form Test'])
 def get_post_form(id: int = Form(...),
                   name: str = Form(...)):
     """
