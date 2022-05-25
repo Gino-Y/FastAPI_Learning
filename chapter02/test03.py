@@ -10,7 +10,7 @@ app = FastAPI(
 )
 
 
-@app.post('/test_post')
+@app.post('/test_post', tags=['Post Test'])
 def get_post_data(user: dict):
     """
     :param user:
@@ -26,15 +26,6 @@ class User(BaseModel):
     name: str
 
 
-@app.post('/test_post2')
-def get_post_data_model(user: User = Body(..., embed=True)):
-    """
-    :param user:
-    :return:
-    """
-    return user
-
-
 class Image(BaseModel):
     url: HttpUrl
     src: str
@@ -46,7 +37,16 @@ class Article(BaseModel):
     image: Image
 
 
-@app.post('/test_post3')
+@app.post('/test_post2', tags=['Post Test Use Model'])
+def get_post_data_model(user: User = Body(..., embed=True)):
+    """
+    :param user:
+    :return:
+    """
+    return user
+
+
+@app.post('/test_post3', tags=['Post Test Use Model'])
 def get_post_data_model(user: User,
                         article: Article):
     """
@@ -57,7 +57,7 @@ def get_post_data_model(user: User,
     return {'user': user, 'article': article}
 
 
-@app.post('/test_post4')
+@app.post('/test_post4', tags=['Post Test Use Model'])
 def get_post_mix(user: User,
                  article: Article,
                  count: int = Body(...)):
@@ -72,7 +72,7 @@ def get_post_mix(user: User,
             'count': count}
 
 
-@app.post('/test_post5')
+@app.post('/test_post5', tags=['Post Test Use Model'])
 def get_post_form(id: int = Form(...),
                   name: str = Form(...)):
     """
