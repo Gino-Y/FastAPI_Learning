@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, HttpUrl
 
 app = FastAPI(
     title='Gino API文档',
-    description='内部办公网 API文档',
+    description='Post 响应测试',
     openapi_url='/openApi.json',
 )
 
@@ -73,8 +73,11 @@ def get_post_mix(user: User,
 
 
 @app.post('/test_post5', tags=['Post Test', 'Form Test'])
-def get_post_form(id: int = Form(...),
-                  name: str = Form(...)):
+def get_post_form(id: int = Form(..., gt=5),
+                  name: str = Form(...,
+                                   min_length=3,
+                                   max_length=10,
+                                   description='name的长度不能少与3和超过10个字符')):
     """
     表单数据练习
     :param id:

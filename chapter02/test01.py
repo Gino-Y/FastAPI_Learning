@@ -3,7 +3,7 @@ from enum import Enum
 
 app = FastAPI(
     title='Gino API文档',
-    description='内部办公网 API文档',
+    description='get响应测试',
     openapi_url='/openApi.json'
 )
 
