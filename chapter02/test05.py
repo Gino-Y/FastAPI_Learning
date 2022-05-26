@@ -11,7 +11,7 @@ app = FastAPI(
 
 
 @app.post('/upload',
-          tags=['单文件上传'],
+          tags=['文件上传'],
           summary='上传一个文件',
           response_description='上传了一个文件',
           )
@@ -24,7 +24,7 @@ async def upload(file: UploadFile = File(...)):
 
 
 @app.post('/uploads',
-          tags=['多文件上传'],
+          tags=['文件上传'],
           summary='上传多个文件',
           response_description='上传了多个文件',
           )
