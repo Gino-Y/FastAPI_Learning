@@ -29,7 +29,7 @@ async def upload(file: UploadFile = File(...)):
           response_description='上传了多个文件',
           )
 async def uploads(files: List[UploadFile] = File(...),
-                  username:str = Form(...)):
+                  username: str = Form(...)):
     print(username)
     for file in files:
         rep = await file.read()
