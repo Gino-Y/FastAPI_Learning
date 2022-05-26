@@ -8,28 +8,19 @@ app = FastAPI(
 )
 
 
-# @app.post('/upload',
-#           tags=['单文件上传'],
-#           summary='上传一个文件',
-#           response_description='上传了一个文件',
-#           )
-# async def upload(file: UploadFile = File(...)):
-#     print(file.file)
-#     rep = await file.read()
-#     with open("../upload/chapter02/" + file.filename, 'wb') as f:
-#         f.write(rep)
-#     return '上传成功'
-
-@app.post("/upload")
-async def upload(file:UploadFile= File(...)):
+@app.post('/upload',
+          tags=['单文件上传'],
+          summary='上传一个文件',
+          response_description='上传了一个文件',
+          )
+async def upload(file: UploadFile = File(...)):
     print(file.file)
     rep = await file.read()
-    with open("../upload/chapter02/"+file.filename,"wb") as f:
+    # with open("D:/Works/WebProject/FastAPI_Learning01/upload/chapter02/" + file.filename, 'wb') as f:
+    with open("../upload/chapter02/" + file.filename, 'wb') as f:
         f.write(rep)
-    return "上传成功"
+    return '上传成功'
 
-
-###
 
 
 
