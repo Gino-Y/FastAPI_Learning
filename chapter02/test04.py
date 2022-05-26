@@ -1,5 +1,7 @@
 from fastapi import FastAPI, Response
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+from typing import Union
 
 app = FastAPI(
     title='Response Test',
@@ -46,7 +48,39 @@ def ret_header():
     return JSONResponse(content=content, headers=headers)
 
 
+class Article(BaseModel):
+    id: int
+    title: str
 
+
+class User(BaseModel):
+    id: int
+    name: str
+    pwd: str
+
+
+class RetUser(BaseModel):
+    id: int
+    name: str
+
+
+@app.get('/ret_model', tags=['返回模型'])
+def ret_model_data():
+    article = Article(id=2, title='Article Test')
+    return article
+
+
+@app.get('/ret_model2', tags=['返回模型'], response_model=RetUser)
+def ret_model_data():
+    user = User(id=1, name='Gino', pwd='123456')
+    return user
+
+
+# @app.get('/ret_model3', tags=['返回模型'], response_model=Union[RetUser, Article])
+# def ret_model_data():
+#     user = User(id=1, name='Gino', pwd='123456')
+#     article = Article(id=2, title='Article Test')
+#     return user
 
 
 
