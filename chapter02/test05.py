@@ -1,6 +1,8 @@
 from fastapi import (FastAPI,
                      UploadFile,
-                     File)
+                     File,
+                     Form)
+from typing import List
 
 app = FastAPI(
     title='upload API',
@@ -16,9 +18,23 @@ app = FastAPI(
 async def upload(file: UploadFile = File(...)):
     print(file.file)
     rep = await file.read()
-    # with open("D:/Works/WebProject/FastAPI_Learning01/upload/chapter02/" + file.filename, 'wb') as f:
-    with open("../upload/chapter02/" + file.filename, 'wb') as f:
+    with open("./upload/chapter02/" + file.filename, 'wb') as f:
         f.write(rep)
+    return '上传成功'
+
+
+@app.post('/uploads',
+          tags=['多文件上传'],
+          summary='上传多个文件',
+          response_description='上传了多个文件',
+          )
+async def uploads(files: List[UploadFile] = File(...),
+                  username:str = Form(...)):
+    print(username)
+    for file in files:
+        rep = await file.read()
+        with open("./upload/chapter02/" + file.filename, "wb") as f:
+            f.write(rep)
     return '上传成功'
 
 
