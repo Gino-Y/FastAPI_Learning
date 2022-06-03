@@ -2,7 +2,7 @@ from passlib.context import CryptContext
 from jose import jwt
 
 crypt_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
-SECRET_KEY = ';lasdfjlsdfjlasdkjflsadkjflasdjflasdkjkflasdfjlsakdfjalsdjflsdfjlsdkfjlskdjflskdfj'
+SECRET_KEY = 'lasdfjlsdfjlasdkjflsadkjflasdjflasdkjkflasdfjlsakdfjalsdjflsdfjlsdkfjlskdjflskdfj'
 
 ALGORITHM = 'HS256'
 
