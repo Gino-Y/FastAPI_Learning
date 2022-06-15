@@ -1,50 +1,38 @@
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
-from passlib.context import CryptContext
-from jose import jwt, JWTError
-from datetime import datetime, timedelta
+from fastapi import FastAPI, Depends
+from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 
-crypt_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+from chapter02 import test08_utils
 
-ALGORITHM = "HS256"
+from datetime import timedelta
 
+EXPIRE_MINUTE = 60
 
-# 明文密码加密
-def get_hash_pwd(pwd: str):
-    return crypt_context.hash(pwd)
+app = FastAPI(
+    description="token认证"
+)
 
 
-# 生成token:用户数据，token过期时间
-def create_token(data: dict, expire_time):
-    if expire_time:
-        expire = datetime.utcnow() + expire_time
+# 登录：获取用户名密码并校验，校验通过返回token
+@app.post("/login")
+def Login(user: OAuth2PasswordRequestForm = Depends()):
+    username = user.username
+    password = user.password
+    # 密码加密
+    hash_pwd = test08_utils.get_hash_pwd(password)
+
+    # todo 用户名密码校验
+    is_ok = True  # 假如用户名密码证通过
+
+    expire_time = timedelta(minutes=EXPIRE_MINUTE)
+    if is_ok:
+        # 生成token,假如username是唯一的
+        token = test08_utils.create_token({"sub": id}, expire_time)
+
+        return {"code": 200, "msg": "登陆成功", "token": token}
     else:
-        expire = datetime.utcnow() + timedelta(minutes=30)
-
-    data.update({"exp": expire})
-    token = jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
-
-    return token
+        return {"code": 401, "msg": "登录失败"}
 
 
-oauth_scame = OAuth2PasswordBearer(tokenUrl="login")  # post请求，相对  /login
-
-
-# token校验
-def parse_token(token: str = Depends(oauth_scame)):
-    token_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="token不正确或已过期",
-        headers={"WWW-Authenticate": "Beater"}
-    )
-
-    try:
-        jwt_data = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
-        username = jwt_data.get("sub")
-        if username is None or username == "":
-            raise token_exception
-    except JWTError:
-        raise token_exception
-
-    return username
+@app.get("/list")
+def get_list(user: str = Depends(test08_utils.parse_token)):
+    return user
