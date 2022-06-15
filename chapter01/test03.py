@@ -25,4 +25,3 @@ my_list = List[int or str]
 
 def get_new_list(li: my_list) -> Union[int, str, bool]:
     return li
-
