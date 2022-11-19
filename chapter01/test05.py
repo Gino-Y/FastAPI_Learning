@@ -2,7 +2,7 @@
 pydantic
 """
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError, validator, PydanticValueError
 from typing import Optional, Union
 from enum import Enum
 
@@ -28,7 +28,7 @@ user_1 = User(id=1, user_name='Gino', age=18, gender=Gender.male)
 print(user_1)
 print(user_1.age)
 
-data = {'id': 2, 'user_name': 'Yan', 'age': 19, 'gender': 'man'}
+data = {'id': 2, 'user_name': 'Yan', 'age': 19, 'gender': Gender.male}
 user_2 = User(**data)
 print(user_2)
 print(user_2.user_name)
@@ -45,6 +45,12 @@ class MyBaseModel(BaseModel):
     Desc: str
     IsDelete: Optional[int]  # bool: 0 or 1
     IsActivate: Optional[int]
+
+    @validator('Id')
+    def valid_id(cls, v):
+        if v != 2:
+            raise ValueError('id的值不是2')
+        return v
 
     class Config:
         schema_extra = {
@@ -67,5 +73,23 @@ class Article(MyBaseModel):
     Title: Optional[str]
 
 
-article = Article(**schema_0)
-print(article)
+class Required(PydanticValueError):
+    code = 'valid_required'
+    msg_template = 'Required Field'
+
+
+try:
+    article = Article(**schema_0)
+    print(article)
+except ValidationError as e:
+    print(e.errors())
+    print(e.json())
+
+print('-----------------------')
+try:
+    article2 = Article(CreateTime='2022', Desc='描述', Title='名头')
+    print(article2)
+except ValidationError as e:
+    print(e.errors())
+    print(e.json())
+    # print(str(e))
