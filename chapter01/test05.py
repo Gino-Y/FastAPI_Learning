@@ -2,7 +2,8 @@
 pydantic
 """
 
-from pydantic import BaseModel, ValidationError, validator, PydanticValueError
+from pydantic import BaseModel, ValidationError, validator
+from pydantic.errors import PydanticValueError
 from typing import Optional, Union
 from enum import Enum
 
@@ -39,6 +40,21 @@ user_3 = User(user_name='Tina', age=18, gender=Gender.female)
 print(user_3)
 
 
+class Required(PydanticValueError):
+    code = 'valid_required'
+    msg_template = 'Required Field, Current value: {value}'
+
+
+class IsNotInteger(PydanticValueError):
+    code = 'not integer'
+    msg_template = 'Value is not integer, Current value: {value}'
+
+
+class IsNot3(PydanticValueError):
+    code = 'not 3'
+    msg_template = 'Value is not 3, Current value: {value}'
+
+
 class MyBaseModel(BaseModel):
     Id: int
     CreateTime: str
@@ -48,6 +64,12 @@ class MyBaseModel(BaseModel):
 
     @validator('Id')
     def valid_id(cls, v):
+        if v != 3:
+            raise IsNot3(value=v)
+        if type(v) == int:
+            raise IsNotInteger(value=v)
+        if v is None:
+            raise Required(value=v)
         if v != 2:
             raise ValueError('id的值不是2')
         return v
@@ -73,11 +95,6 @@ class Article(MyBaseModel):
     Title: Optional[str]
 
 
-class Required(PydanticValueError):
-    code = 'valid_required'
-    msg_template = 'Required Field'
-
-
 try:
     article = Article(**schema_0)
     print(article)
@@ -86,9 +103,20 @@ except ValidationError as e:
     print(e.json())
 
 print('-----------------------')
+print('article2')
 try:
     article2 = Article(CreateTime='2022', Desc='描述', Title='名头')
     print(article2)
+except ValidationError as e:
+    print(e.errors())
+    print(e.json())
+    # print(str(e))
+
+print('-----------------------')
+print('article3')
+try:
+    article3 = Article(Id=4, CreateTime='2022', Desc='描述', Title='名头')
+    print(article3)
 except ValidationError as e:
     print(e.errors())
     print(e.json())
