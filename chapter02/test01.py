@@ -19,7 +19,7 @@ def get_user(id: int):
 
 
 # 路径参数: 路径转换器
-@app01.get('/user/{id: path}', tags=['路径参数'], description='路径转换器')
+@app01.get('/user1/{id: path}', tags=['路径参数'], description='路径转换器')
 def get_user(id: str):
     return id
 
