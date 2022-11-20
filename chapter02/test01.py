@@ -13,19 +13,19 @@ def get_user():
 
 
 # 路径参数
-@app01.get('/user/{id}')
+@app01.get('/user/{id}', tags=['路径参数'], description='路径参数')
 def get_user(id: int):
     return id
 
 
-# 路径参数: 3路径转换器
-@app01.get('/user/{id: path}')
+# 路径参数: 路径转换器
+@app01.get('/user/{id: path}', tags=['路径参数'], description='路径转换器')
 def get_user(id: str):
     return id
 
 
-# 路径参数: 3路径转换器
-@app01.get('/user2/{info: path}')
+# 路径参数: 路径转换器
+@app01.get('/user2/{info: path}', tags=['路径参数'], description='路径转换器')
 def get_user(info: str):
     return info
 
@@ -36,12 +36,12 @@ class Gender(str, Enum):
     unknow = 'unknow'
 
 
-@app01.get('/user3/{gender}')
+@app01.get('/user3/{gender}', tags=['路径参数'], description='路径参数，枚举类型')
 def get_user_gender(gender: Gender):
     return gender
 
 
-@app01.get('/user4/{gender}')
+@app01.get('/user4/{gender}', tags=['路径参数'], description='路径参数，枚举类型')
 def get_user_gender(gender: Gender):
     """
     这是一个测试描述
@@ -52,7 +52,7 @@ def get_user_gender(gender: Gender):
 
 
 # 查询参数
-@app01.get('/user5/')
+@app01.get('/user5/', tags=['查询参数'], description='查询参数')
 def Querying_Parameters(username: str,
                         age: int):
     """
@@ -66,7 +66,7 @@ def Querying_Parameters(username: str,
 
 
 # 可选参数
-@app01.get('/user6/')
+@app01.get('/user6/', tags=['查询参数'], description='查询参数，可选参数')
 def Default_Parameters(username: str = None,
                        age: int = 0):
     """
@@ -80,7 +80,7 @@ def Default_Parameters(username: str = None,
 
 
 # 路径参数和查询参数结合使用
-@app01.get('/user6/{id}/{name}')
+@app01.get('/user6/{id}/{name}', tags=['路径参数', '查询参数'], description='路径参数和查询参数结合使用')
 def Default_Path_Parameters(id: int,
                             name: str,
                             age: int,
@@ -100,7 +100,7 @@ def Default_Path_Parameters(id: int,
 
 
 # 查询参数Query校验
-@app01.get('/nuser7/')
+@app01.get('/nuser7/', tags=['查询参数'], description='查询参数Query校验')
 def Query_Checkout(name: str = Query(None,  # 必传为三个点...
                                      max_length=10,
                                      title='我是标题',
@@ -109,7 +109,7 @@ def Query_Checkout(name: str = Query(None,  # 必传为三个点...
 
 
 # 查询参数Path校验
-@app01.get('/nuser8/{id}')
+@app01.get('/nuser8/{id}', tags=['查询参数'], description='查询参数Path校验')
 def Path_Checkout(id: int = Path(...,  # 必传为三个点...
                                  gt=5,
                                  title='我是标题',
