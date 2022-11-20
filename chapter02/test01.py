@@ -1,32 +1,33 @@
-from fastapi import FastAPI, Query, Path
+from fastapi import FastAPI, Query, Path, APIRouter
 from enum import Enum
 
-app = FastAPI(
-    title='Gino API文档',
-    description='get响应测试',
-    openapi_url='/openApi.json'
-)
+app01 = APIRouter()
+# app01 = FastAPI(
+#     title='Gino API文档',
+#     description='get响应测试',
+#     openapi_url='/openApi.json'
+# )
 
 
-@app.get('/')
+@app01.get('/')
 def get_user():
     return 'hello fastapi'
 
 
 # 路径参数
-@app.get('/user/{id}')
+@app01.get('/user/{id}')
 def get_user(id: int):
     return id
 
 
 # 路径参数: 3路径转换器
-@app.get('/user/{id: path}')
+@app01.get('/user/{id: path}')
 def get_user(id: str):
     return id
 
 
 # 路径参数: 3路径转换器
-@app.get('/user2/{info: path}')
+@app01.get('/user2/{info: path}')
 def get_user(info: str):
     return info
 
@@ -37,12 +38,12 @@ class Gender(str, Enum):
     unknow = 'unknow'
 
 
-@app.get('/user3/{gender}')
+@app01.get('/user3/{gender}')
 def get_user_gender(gender: Gender):
     return gender
 
 
-@app.get('/user4/{gender}')
+@app01.get('/user4/{gender}')
 def get_user_gender(gender: Gender):
     """
     这是一个测试描述
@@ -53,7 +54,7 @@ def get_user_gender(gender: Gender):
 
 
 # 查询参数
-@app.get('/user5/')
+@app01.get('/user5/')
 def Querying_Parameters(username: str,
                         age: int):
     """
@@ -67,7 +68,7 @@ def Querying_Parameters(username: str,
 
 
 # 可选参数
-@app.get('/user6/')
+@app01.get('/user6/')
 def Default_Parameters(username: str = None,
                        age: int = 0):
     """
@@ -81,7 +82,7 @@ def Default_Parameters(username: str = None,
 
 
 # 路径参数和查询参数结合使用
-@app.get('/user6/{id}/{name}')
+@app01.get('/user6/{id}/{name}')
 def Default_Path_Parameters(id: int,
                             name: str,
                             age: int,
@@ -101,7 +102,7 @@ def Default_Path_Parameters(id: int,
 
 
 # 查询参数Query校验
-@app.get('/nuser7/')
+@app01.get('/nuser7/')
 def Query_Checkout(name: str = Query(None,  # 必传为三个点...
                                      max_length=10,
                                      title='我是标题',
@@ -110,7 +111,7 @@ def Query_Checkout(name: str = Query(None,  # 必传为三个点...
 
 
 # 查询参数Path校验
-@app.get('/nuser8/{id}')
+@app01.get('/nuser8/{id}')
 def Path_Checkout(id: int = Path(...,  # 必传为三个点...
                                  gt=5,
                                  title='我是标题',

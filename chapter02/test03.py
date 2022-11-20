@@ -1,16 +1,12 @@
-from fastapi import (FastAPI,
+from fastapi import (APIRouter,
                      Body,
                      Form)
 from pydantic import BaseModel, Field, HttpUrl
 
-app = FastAPI(
-    title='Gino API文档',
-    description='Post 响应测试',
-    openapi_url='/openApi.json',
-)
+app03 = APIRouter()
 
 
-@app.post('/test_post', tags=['Post Test'])
+@app03.post('/test_post', tags=['Post Test'])
 def get_post_data(user: dict):
     """
     :param user:
@@ -37,7 +33,7 @@ class Article(BaseModel):
     image: Image
 
 
-@app.post('/test_post2', tags=['Post Test Use Model'])
+@app03.post('/test_post2', tags=['Post Test Use Model'])
 def get_post_data_model(user: User = Body(..., embed=True)):
     """
     :param user:
@@ -46,7 +42,7 @@ def get_post_data_model(user: User = Body(..., embed=True)):
     return user
 
 
-@app.post('/test_post3', tags=['Post Test Use Model'])
+@app03.post('/test_post3', tags=['Post Test Use Model'])
 def get_post_data_model(user: User,
                         article: Article):
     """
@@ -57,7 +53,7 @@ def get_post_data_model(user: User,
     return {'user': user, 'article': article}
 
 
-@app.post('/test_post4', tags=['Post Test Use Model'])
+@app03.post('/test_post4', tags=['Post Test Use Model'])
 def get_post_mix(user: User,
                  article: Article,
                  count: int = Body(...)):
@@ -72,7 +68,7 @@ def get_post_mix(user: User,
             'count': count}
 
 
-@app.post('/test_post5', tags=['Post Test', 'Form Test'])
+@app03.post('/test_post5', tags=['Post Test', 'Form Test'])
 def get_post_form(id: int = Form(..., gt=5),
                   name: str = Form(...,
                                    min_length=3,
