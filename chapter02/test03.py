@@ -3,7 +3,9 @@ from fastapi import (APIRouter,
                      Form)
 from pydantic import BaseModel, Field, HttpUrl
 
-app03 = APIRouter()
+app03 = APIRouter(prefix='/post',
+                  tags=['post 响应测试']
+                  )
 
 
 @app03.post('/test_post', tags=['Post Test'])

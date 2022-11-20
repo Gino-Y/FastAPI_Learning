@@ -1,12 +1,10 @@
 from fastapi import FastAPI, Query, Path, APIRouter
 from enum import Enum
 
-app01 = APIRouter()
-# app01 = FastAPI(
-#     title='Gino API文档',
-#     description='get响应测试',
-#     openapi_url='/openApi.json'
-# )
+# app01 = APIRouter()
+app01 = APIRouter(prefix='/get',
+                  tags=['get 响应测试']
+                  )
 
 
 @app01.get('/')

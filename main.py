@@ -4,11 +4,11 @@ from chapter02 import app01, app03
 
 app = FastAPI(
     title='Gino API文档',
-    description='This is a interface test document',
+    description='This is an interface interaction test document',
     openapi_url='/openApi.json'
 )
-app.include_router(app01, prefix='/get', tags=['get 响应测试'])
-app.include_router(app03, prefix='/post', tags=['Post 响应测试'])
+app.include_router(app01)
+app.include_router(app03)
 
 
 @app.get("/")
