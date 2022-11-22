@@ -7,11 +7,16 @@ app03 = APIRouter(prefix='/post',
                   tags=['post 响应测试'])
 
 
-@app03.post('/test_post', tags=['Post Test'])
-def get_post_data(user: dict):
+@app03.post('/json_test',
+            tags=['Post Test'],
+            description='输入一个JSON,后台打印出来,并直接返回',)
+def json_test(user: dict):
     """
-    :param user:
-    :return:
+    输入一个JSON
+    后台打印出来
+    并直接返回
+    :param user: JSON
+    :return: JSON
     """
     print(user)
     return user
