@@ -7,9 +7,7 @@ app03 = APIRouter(prefix='/post',
                   tags=['post 响应测试'])
 
 
-@app03.post('/json_test',
-            tags=['Post Test'],
-            description='输入一个JSON,后台打印出来,并直接返回',)
+@app03.post('/json_test', tags=['Post Test'])
 def json_test(user: dict):
     """
     输入一个JSON
@@ -24,13 +22,25 @@ def json_test(user: dict):
 
 # 使用模型
 class User(BaseModel):
-    id: int = Field(..., gt=10)
+    id: int = Field(..., gt=10, description='id必须大于10')
     name: str
+
+    class Config:
+        schema_extra = {
+            'id': 15,
+            'name': 'Gino'
+        }
 
 
 class Image(BaseModel):
     url: HttpUrl
     src: str
+
+    class Config:
+        schema_extra = {
+            'url': 'http://127.0.0.1:8000/docs',
+            'src': 'chapter/test'
+        }
 
 
 class Article(BaseModel):
@@ -39,35 +49,40 @@ class Article(BaseModel):
     image: Image
 
 
-@app03.post('/test_post2', tags=['Post Test Use Model'])
-def get_post_data_model(user: User = Body(..., embed=True)):
+@app03.post('/model_test', tags=['Post Test Use Model'])
+def model_test(user: User = Body(..., embed=True)):
     """
-    :param user:
-    :return:
+    练习使用模型 \n
+    Body(..., embed=True) 外层插入key \n
+    :param user:使用模型类定义的User类 id必须大于10、gt=10\n
+    :return:返回user的值
     """
     return user
 
 
-@app03.post('/test_post3', tags=['Post Test Use Model'])
-def get_post_data_model(user: User,
-                        article: Article):
+@app03.post('/multiple_model', tags=['Post Test Use Model'])
+def multiple_model(user: User,
+                   article: Article):
     """
-    :param article:
-    :param user:
-    :return:
+    多个模型不需要设置embed=True \n
+    :param article: 文章模型 注意url格式不能错 \n
+    :param user: 用户模型 \n
+    :return: 返回文章和用户模型 \n
     """
     return {'user': user, 'article': article}
 
 
-@app03.post('/test_post4', tags=['Post Test Use Model'])
-def get_post_mix(user: User,
-                 article: Article,
-                 count: int = Body(...)):
+@app03.post('/mixture', tags=['Post Test Use Model'])
+def mixture(user: User,
+            article: Article,
+            count: int = Body(...)):
     """
-    :param count:
-    :param article:
-    :param user:
-    :return:
+    多字段模型参数和单字段参数同时作为参数的方式 \n
+    单字段插入必须使用 = Body(...) \n
+    :param count: 单字段参数 \n
+    :param article: 文章多字段模型参数 \n
+    :param user: 用户多字段模型参数 \n
+    :return: 文章多字段模型、用户多字段模型、计数单字段
     """
     return {'user': user,
             'article': article,
