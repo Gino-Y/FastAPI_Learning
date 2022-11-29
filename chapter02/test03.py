@@ -89,17 +89,17 @@ def mixture(user: User,
             'count': count}
 
 
-@app03.post('/test_post5', tags=['Post Test', 'Form Test'])
+@app03.post('/form_test', tags=['Post Test', 'Form Test'])
 def get_post_form(id: int = Form(..., gt=5),
                   name: str = Form(...,
                                    min_length=3,
                                    max_length=10,
-                                   description='name的长度不能少与3和超过10个字符')):
+                                   description='name的字符长度不能少与3和超过10个字符')):
     """
-    表单数据练习
-    :param id:
-    :param name:
-    :return:
+    表单数据练习 \n
+    :param id: ID 需要大于 5 \n
+    :param name: name的长度不能少与3和超过10个字符 \n
+    :return: id和name
     """
     return {'id': id,
             'name': name}
