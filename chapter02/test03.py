@@ -97,7 +97,7 @@ def get_post_form(id: int = Form(..., gt=5),
                                    description='name的字符长度不能少与3和超过10个字符')):
     """
     表单数据练习 \n
-    :param id: ID 需要大于 5 \n
+    :param id: ID值 需要大于 5 \n
     :param name: name的长度不能少与3和超过10个字符 \n
     :return: id和name
     """
