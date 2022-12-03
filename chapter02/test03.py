@@ -90,7 +90,7 @@ def mixture(user: User,
 
 
 @app03.post('/form_test', tags=['Post Test', 'Form Test'])
-def get_post_form(id: int = Form(..., gt=5),
+def get_post_form(id: int = Form(..., gt=6),
                   name: str = Form(...,
                                    min_length=3,
                                    max_length=10,
