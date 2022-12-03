@@ -1,13 +1,15 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, APIRouter
 from fastapi.security import OAuth2PasswordBearer
 
-app = FastAPI(
-    title='attestation Test',
-    description='身份认证'
-)
+# app = FastAPI(
+#     title='attestation Test',
+#     description='身份认证'
+# )
+app08 = APIRouter(prefix='/attestation',
+                  tags=['身份认证'])
 
 
-@app.post('/token')
+@app08.post('/token')
 def get_token(data: OAuth2PasswordBearer = Depends()):
     usermane = data.username
     password = data.password
@@ -21,7 +23,6 @@ def get_token(data: OAuth2PasswordBearer = Depends()):
 oauth_scame = OAuth2PasswordBearer(tokenUrl='token')
 
 
-@app.get('/')
+@app08.get('/')
 def get_list(token: str = Depends(oauth_scame)):
-
     return {'articles': [1, 2, 33, 4]}

@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
-from chapter02 import app01, app03, app04
+from chapter02 import app01, app03, app04, app05, app06, app08
+from chapter02.test08_2 import app08_2
 
 app = FastAPI(
     title='Gino API文档',
@@ -10,6 +11,10 @@ app = FastAPI(
 app.include_router(app01)
 app.include_router(app03)
 app.include_router(app04)
+app.include_router(app05)
+app.include_router(app06)
+app.include_router(app08)
+app.include_router(app08_2)
 
 
 @app.get("/")

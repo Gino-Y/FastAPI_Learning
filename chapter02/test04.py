@@ -14,33 +14,33 @@ app04 = APIRouter(prefix='/response',
 
 
 @app04.get('/ret_str',
-         tags=['返回字符串'],
-         summary='将得到一个字符串',
-         response_description='应答一行字符串',
-         status_code=status.HTTP_200_OK)  # 状态码设置
+           tags=['返回字符串'],
+           summary='将得到一个字符串',
+           response_description='应答一行字符串',
+           status_code=status.HTTP_200_OK)  # 状态码设置
 def ret_str():
     return 'hello fastapi'
 
 
 @app04.get('/ret_dict',
-         tags=['返回字典'],
-         summary='将得到一个字典')
+           tags=['返回字典'],
+           summary='将得到一个字典')
 def ret_dict():
     return {'id': 1, 'mane': 'Gino'}
 
 
 @app04.get('/ret_json',
-         tags=['返回Json'],
-         summary='用JSONResponse, 字典转为json')
+           tags=['返回Json'],
+           summary='用JSONResponse, 字典转为json')
 def ret_json():
     content = {'id': 1, 'mane': 'Gino'}
     return JSONResponse(content=content)
 
 
 @app04.get('/ret_json2',
-         tags=['返回Json'],
-         summary='字符串转为json(并不成功)',
-         deprecated=True)  # 弃用
+           tags=['返回Json'],
+           summary='字符串转为json(并不成功)',
+           deprecated=True)  # 弃用
 def ret_json():
     """
     这种也不行啊
@@ -51,16 +51,16 @@ def ret_json():
 
 
 @app04.get('/ret_header',
-         tags=['返回到header'],
-         summary='将得到一条headers记录')
+           tags=['返回到header'],
+           summary='将得到一条headers记录')
 def ret_header(rsp: Response):
     rsp.headers['name'] = 'Gino'
     return 'hello fastapi'
 
 
 @app04.get('/ret_header2',
-         tags=['返回到header', '返回Json'],
-         summary='将得到一条JSON数据,和两条headers记录')
+           tags=['返回到header', '返回Json'],
+           summary='将得到一条JSON数据,和两条headers记录')
 def ret_header():
     content = {'age': 18}
     headers = {'name': 'Gino', 'addr': 'HangZhou'}
@@ -103,26 +103,9 @@ def ret_model_data():
 
 
 @app04.get('/ret_jsonable',
-         tags=['返回Json'],
-         summary='用jsonable_encoder, 字典转为json')
+           tags=['返回Json'],
+           summary='用jsonable_encoder, 字典转为json')
 def ret_jsonable():
     content = {'id': 2}
     json_content = jsonable_encoder(content)
     return json_content
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
