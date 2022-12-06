@@ -5,6 +5,8 @@ from .test05 import app05
 from .test06 import app06
 from .test08 import app08
 from .test08_2 import app08_2
+# from .test09 import app09
+from .test10 import app10
 
 
 
