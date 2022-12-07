@@ -8,7 +8,6 @@ from fastapi import FastAPI, Depends, APIRouter
 # )
 app10 = APIRouter(prefix='/dependencies',
                   tags=['依赖注入api文档'],
-                  dependencies=[Depends(), Depends()]
                   )
 
 user = {"user_id": 1, "user_name": "Gino"}
@@ -31,8 +30,16 @@ class GetUserById:
         self.name = name
 
 
-@app10.get("/get_user/{user_id}")
+@app10.get("/get_user/{user_id}",
+           summary='根据ID查找用户名',
+           response_description='用户信息')
 def get_user(user_name: str = Depends(get_user_by_id)):
+    """
+    路径参数依赖注入 \n
+    根据ID查找用户名 \n
+    :param user_name: 依赖注入 \n
+    :return: 用户信息
+    """
     return user_name
 
 
@@ -48,13 +55,16 @@ def get_index(name: str, user_name: str = Depends(get_user_by_id)):
 
 @app10.get("/get_user_info/{user_id}")
 def get_user_cls(name: str, user: GetUserById = Depends()):
+    """
+    类依赖注入
+    """
     return {"user:id": user.user_id, "name": user.name}
 
 
 # 没有实际意义
-@app10.get("/get_depends", dependencies=[Depends(), Depends()])
-def get_depends():
-    return "hello fastapi"
+# @app10.get("/get_depends", dependencies=[Depends(), Depends()])
+# def get_depends():
+#     return "hello fastapi"
 
 
 if __name__ == '__main__':
